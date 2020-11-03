@@ -1,0 +1,23 @@
+int led = 13; //Pin en donde se conectara el led al arduino
+int button = 12; //Pin donde se conectara el boton al arduino
+void setup() {
+pinMode(led, OUTPUT); //Establece las salida
+pinMode(button, INPUT); //Establece la entrada
+Serial.begin(9600); //Comunicaciónserial
+}
+void loop(){
+if(Serial.available() > 0) {
+char ledState = Serial.read();
+if(ledState == '1'){ //Si el led es presionado
+digitalWrite(led, HIGH); //El del encendera
+}
+if(ledState == '0'){ //Si la informacion que el led envia es 0 porque no lo presionamos
+digitalWrite(led, LOW); //El led se apagara 
+}
+}
+int buttonState = digitalRead(button);  //Establece conxión del botón
+if ( buttonState == HIGH){
+Serial.println("Button is pressed");
+delay(50); //Tiempo en que la informacion del boton permanecera al presionar el boton.
+}
+}
