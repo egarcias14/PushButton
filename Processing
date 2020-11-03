@@ -1,0 +1,26 @@
+import processing.serial.*;
+Serial myPort;
+String myText="";
+void setup(){
+size(300, 300);
+myPort = new Serial(this, "COM4", 9600); //Establece comunicación serial
+myPort.bufferUntil('n'); ////El buffer establece el numero de Bytes antes de llamar al evento serial
+}
+void serialEvent (Serial myPort){ //Aqui se reciben los datos si existen datos seriales en el buffer 
+myText = myPort.readStringUntil('n');
+}
+void draw(){
+background(0,0,0); //COlor del fondo
+text(myText, 120, 120); 
+myText="";
+if(mousePressed && (mouseButton == LEFT)){ //Esta condicional establece que si se presiona el boton izquierdo del mouse
+myPort.write('1'); //Encendera el led 
+fill(255, 0,0); //si se cumple la condicon el color de la ellipse sera color rojo
+ellipse(100, 150, 50,50);
+}
+if (mousePressed && (mouseButton == RIGHT)){ //Si esta condicion establece que si se presiona el boton derecho del mouse
+myPort.write('0'); //Apagará el led
+fill(0,255,0); //Y el color de la ellipse será verde
+ellipse(100, 150, 50,50);
+}
+}
